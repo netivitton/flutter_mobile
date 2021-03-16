@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:argon_flutter/constants/Theme.dart';
 
 import 'package:argon_flutter/widgets/drawer-tile.dart';
+import 'package:argon_flutter/process/service_locator.dart';
 
 class ArgonDrawer extends StatelessWidget {
   final String currentPage;
@@ -47,7 +48,7 @@ class ArgonDrawer extends StatelessWidget {
                   icon: Icons.home,
                   onTap: () {
                     if (currentPage != "Home")
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
                   },
                   iconColor: ArgonColors.primary,
                   title: "Home",
@@ -56,7 +57,7 @@ class ArgonDrawer extends StatelessWidget {
                   icon: Icons.pie_chart,
                   onTap: () {
                     if (currentPage != "Profile")
-                      Navigator.pushReplacementNamed(context, '/profile');
+                      locator<NavigationService>().navigateTo('profile');
                   },
                   iconColor: ArgonColors.warning,
                   title: "Profile",
@@ -65,7 +66,7 @@ class ArgonDrawer extends StatelessWidget {
                   icon: Icons.account_circle,
                   onTap: () {
                     if (currentPage != "Account")
-                      Navigator.pushReplacementNamed(context, '/account');
+                      locator<NavigationService>().navigateTo('account');
                   },
                   iconColor: ArgonColors.info,
                   title: "Account",
@@ -74,7 +75,7 @@ class ArgonDrawer extends StatelessWidget {
                   icon: Icons.settings_input_component,
                   onTap: () {
                     if (currentPage != "Elements")
-                      Navigator.pushReplacementNamed(context, '/elements');
+                      locator<NavigationService>().navigateTo('elements');
                   },
                   iconColor: ArgonColors.error,
                   title: "Elements",
@@ -83,7 +84,7 @@ class ArgonDrawer extends StatelessWidget {
                   icon: Icons.apps,
                   onTap: () {
                     if (currentPage != "Articles")
-                      Navigator.pushReplacementNamed(context, '/articles');
+                      locator<NavigationService>().navigateTo('articles');
                   },
                   iconColor: ArgonColors.primary,
                   title: "Articles",

@@ -23,14 +23,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: 'OpenSans'),
       initialRoute: "/login",
       debugShowCheckedModeBanner: false,
-      routes: <String, WidgetBuilder>{
-        "/login": (BuildContext context) => new Login(),
-        "/home": (BuildContext context) => new Home(),
-        "/profile": (BuildContext context) => new Profile(),
-        "/articles": (BuildContext context) => new Articles(),
-        "/elements": (BuildContext context) => new Elements(),
-        "/account": (BuildContext context) => new Register(),
-      },
       navigatorKey: locator<NavigationService>().navigatorKey,
       onGenerateRoute: (settings) {
         switch (settings.name) {

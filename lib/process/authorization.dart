@@ -82,7 +82,6 @@ Future<oauth2.Client> createClient() async {
     try {
       client = await refreshClient();
     } catch (e) {
-      Get.defaultDialog();
       throw ("refresh expire");
     }
   }

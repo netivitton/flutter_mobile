@@ -7,6 +7,7 @@ import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/widgets/input.dart';
 import 'package:argon_flutter/widgets/table-cell.dart';
+import 'package:argon_flutter/process/service_locator.dart';
 
 class Elements extends StatefulWidget {
   @override
@@ -64,7 +65,7 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
@@ -91,7 +92,7 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
@@ -118,7 +119,7 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
@@ -145,7 +146,8 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
+                      //Navigator.pushReplacementNamed(context, '/home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
@@ -172,7 +174,8 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
+                      //Navigator.pushReplacementNamed(context, '/home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
@@ -199,7 +202,8 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
+                      //Navigator.pushReplacementNamed(context, '/home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
@@ -226,7 +230,8 @@ class _ElementsState extends State<Elements> {
                     ),
                     onPressed: () {
                       // Respond to button press
-                      Navigator.pushReplacementNamed(context, '/home');
+                      locator<NavigationService>().navigateTo('home');
+                      //Navigator.pushReplacementNamed(context, '/home');
                     },
                     child: Padding(
                         padding: EdgeInsets.only(
