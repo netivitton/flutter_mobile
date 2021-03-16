@@ -61,10 +61,12 @@ class _Home extends State<Home> {
   }
 
   Future<void> _doProfile() async {
-    var client = await createClient();
-    var result =
-        await client.read(Uri.parse('http://localhost:4200/user/profile'));
-    print(result);
+    try {
+      var client = await createClient();
+      var result =
+          await client.read(Uri.parse('http://localhost:4200/user/profile'));
+      print(result);
+    } catch (e) {}
   }
 
   @override

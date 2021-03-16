@@ -28,8 +28,8 @@ class Login extends StatelessWidget {
         showDialog(
           context: context,
           builder: (BuildContext context) => new CupertinoAlertDialog(
-            title: new Text("Alert"),
-            content: new Text("My alert message"),
+            title: new Text("สถานะ"),
+            content: new Text("รหัสผ่านไม่ถูกต้อง"),
             actions: [
               CupertinoButton(
                   child: Text('Close'),

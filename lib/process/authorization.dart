@@ -78,20 +78,9 @@ Future<oauth2.Client> createClient() async {
     print(result);
   } on http.ClientException catch (e) {
     try {
-      client.credentials.refresh(
-          identifier: identifier,
-          secret: secret,
-          basicAuth: true,
-          newScopes: ["profile"]);
-      credentials = await client.credentials
-          .refresh(identifier: identifier, secret: secret, basicAuth: true);
-      client =
-          oauth2.Client(credentials, identifier: identifier, secret: secret);
-      Directory directory = await getApplicationDocumentsDirectory();
-      File(directory.path + '/credentials.json')
-          .writeAsString(client.credentials.toJson());
+      client = await refreshClient();
     } catch (e) {
-      locator<NavigationService>().navigateTo('Login');
+      throw ("refresh expire");
     }
   }
 
@@ -111,18 +100,18 @@ Future<oauth2.Client> refreshClient() async {
       oauth2.Credentials.fromJson(await credentialsFile.readAsString());
   var client =
       oauth2.Client(credentials, identifier: identifier, secret: secret);
-
-  credentials = await client.credentials.refresh(
-      identifier: identifier,
-      secret: secret,
-      basicAuth: true,
-      newScopes: ["profile"]);
-
-  File(directory.path + '/credentials.json')
-      .writeAsString(client.credentials.toJson());
-  credentials =
-      oauth2.Credentials.fromJson(await credentialsFile.readAsString());
-  client = oauth2.Client(credentials, identifier: identifier, secret: secret);
+  try {
+    credentials = await client.credentials.refresh(
+        identifier: identifier,
+        secret: secret,
+        basicAuth: true,
+        newScopes: ["profile"]);
+    File(directory.path + '/credentials.json')
+        .writeAsString(client.credentials.toJson());
+    client = oauth2.Client(credentials, identifier: identifier, secret: secret);
+  } catch (e) {
+    locator<NavigationService>().navigateTo('Login');
+  }
 
   return client;
 }
