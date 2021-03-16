@@ -8,6 +8,7 @@ import 'package:argon_flutter/screens/register.dart';
 import 'package:argon_flutter/screens/articles.dart';
 import 'package:argon_flutter/screens/elements.dart';
 import 'package:argon_flutter/process/service_locator.dart';
+import 'package:get/get.dart';
 
 void main() {
   setupLocator();
@@ -17,7 +18,7 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Argon PRO Flutter',
       theme: ThemeData(fontFamily: 'OpenSans'),
       initialRoute: "/login",

@@ -9,6 +9,7 @@ import 'package:argon_flutter/widgets/input.dart';
 import 'package:http/http.dart' as http;
 import 'package:argon_flutter/process/authorization.dart';
 import 'package:argon_flutter/process/service_locator.dart';
+import 'package:get/get.dart';
 
 class Login extends StatelessWidget {
   final TextEditingController usernameController = new TextEditingController();

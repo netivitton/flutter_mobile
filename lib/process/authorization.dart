@@ -7,6 +7,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:device_info/device_info.dart';
 import 'package:flutter/services.dart';
 import 'package:argon_flutter/process/service_locator.dart';
+import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 
 final storage = new FlutterSecureStorage();
 Future<dynamic> passwordGrant(String username, password) async {
@@ -80,6 +82,7 @@ Future<oauth2.Client> createClient() async {
     try {
       client = await refreshClient();
     } catch (e) {
+      Get.defaultDialog();
       throw ("refresh expire");
     }
   }
@@ -111,6 +114,7 @@ Future<oauth2.Client> refreshClient() async {
     client = oauth2.Client(credentials, identifier: identifier, secret: secret);
   } catch (e) {
     locator<NavigationService>().navigateTo('Login');
+    Get.defaultDialog(title: "Test", content: Text("Testtt"));
   }
 
   return client;
