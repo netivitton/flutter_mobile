@@ -86,8 +86,11 @@ Future<oauth2.Client> createClient() async {
     print(result);
   } on http.ClientException catch (e) {
     try {
+      print(e);
       client = await refreshClient(credentials, client);
+      print(credentialsFile.readAsString());
     } catch (e) {
+      print(e);
       throw ("refresh expire");
     }
   }
@@ -103,19 +106,17 @@ Future<oauth2.Client> refreshClient(credentials, client) async {
   try {
     credentials = await client.credentials
         .refresh(identifier: identifier, secret: secret, basicAuth: true);
+    client = oauth2.Client(credentials, identifier: identifier, secret: secret);
     File(directory.path + '/credentials.json')
         .writeAsString(client.credentials.toJson());
-    client = oauth2.Client(credentials, identifier: identifier, secret: secret);
+    return client;
   } on FormatException catch (e) {
-    print(e);
     locator<NavigationService>().navigateTo('Login');
     Get.defaultDialog(title: "Test", content: Text("Testtt"));
     throw ("Token Expire");
   } catch (e) {
     throw ("Disconnect");
   }
-
-  return client;
 }
 
 Future<List<String>> getDeviceDetails() async {

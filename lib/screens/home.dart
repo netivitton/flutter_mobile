@@ -92,6 +92,7 @@ class _Home extends State<Home> {
           await client.read(Uri.parse('http://localhost:4200/user/test_list'));
       Map<String, dynamic> responseJson = jsonDecode(result);
       list_data = responseJson['BODY'];
+      print(list_data);
     } catch (e) {
       print(e);
     }
