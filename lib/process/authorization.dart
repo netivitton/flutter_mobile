@@ -13,6 +13,9 @@ import 'package:flutter/material.dart';
 final storage = new FlutterSecureStorage();
 Future<dynamic> passwordGrant(String username, password) async {
   Map data = {'username': username, 'password': password};
+  var identifier = await storage.read(key: "clientIdentifier");
+  var secret = await storage.read(key: "clientSecret");
+  var result;
   var response =
       await http.post(Uri.http("localhost:4200", "login"), body: data);
   // This URL is an endpoint that's provided by the authorization server. It's
@@ -30,23 +33,26 @@ Future<dynamic> passwordGrant(String username, password) async {
 //
 // Some servers don't require the client to authenticate itself, in which case
 // these should be omitted.
-  Map<String, dynamic> responseJson = jsonDecode(response.body);
-  final errorCode = responseJson['HEAD']['error_code'];
-  print(responseJson);
-  var result;
-  if (errorCode == "0") {
-    final identifier = responseJson['BODY']['client_id'];
-    final secret = responseJson['BODY']['client_secret'];
-    print(identifier);
-    print(secret);
+  if (identifier == null) {
+    Map<String, dynamic> responseJson = jsonDecode(response.body);
+    final errorCode = responseJson['HEAD']['error_code'];
+    print(responseJson);
+    if (errorCode == "0") {
+      identifier = responseJson['BODY']['client_id'];
+      secret = responseJson['BODY']['client_secret'];
+      print(identifier);
+      print(secret);
 // Make a request to the authorization endpoint that will produce the fully
 // authenticated Client.
+      await storage.write(key: "clientIdentifier", value: identifier);
+      await storage.write(key: "clientSecret", value: secret);
+    }
+  }
+  try {
+    // Once you have the client, you can use it just like any other HTTP client.
     var client = await oauth2.resourceOwnerPasswordGrant(
         authorizationEndpoint, username, password,
         identifier: identifier, secret: secret);
-    await storage.write(key: "clientIdentifier", value: identifier);
-    await storage.write(key: "clientSecret", value: secret);
-// Once you have the client, you can use it just like any other HTTP client.
     result = await client.read(Uri.parse('http://localhost:4200/user/secure'));
 // Once we're done with the client, save the credentials file. This will allow
 // us to re-use the credentials and avoid storing the username and password
@@ -54,7 +60,7 @@ Future<dynamic> passwordGrant(String username, password) async {
     Directory directory = await getApplicationDocumentsDirectory();
     File(directory.path + '/credentials.json')
         .writeAsString(client.credentials.toJson());
-  } else {
+  } catch (e) {
     result = jsonEncode({'checkLogin': false});
   }
 
@@ -80,40 +86,33 @@ Future<oauth2.Client> createClient() async {
     print(result);
   } on http.ClientException catch (e) {
     try {
-      client = await refreshClient();
+      client = await refreshClient(credentials, client);
     } catch (e) {
       throw ("refresh expire");
     }
   }
-
   return client;
 }
 
-Future<oauth2.Client> refreshClient() async {
-  List<String> device = await getDeviceDetails();
-  device.forEach((element) => print(element));
+Future<oauth2.Client> refreshClient(credentials, client) async {
   Directory directory = await getApplicationDocumentsDirectory();
-  final credentialsFile = File(directory.path + '/credentials.json');
   final identifier = await storage.read(key: "clientIdentifier");
   final secret = await storage.read(key: "clientSecret");
   // If the OAuth2 credentials have already been saved from a previous run, we
   // just want to reload them.
-  var credentials =
-      oauth2.Credentials.fromJson(await credentialsFile.readAsString());
-  var client =
-      oauth2.Client(credentials, identifier: identifier, secret: secret);
   try {
-    credentials = await client.credentials.refresh(
-        identifier: identifier,
-        secret: secret,
-        basicAuth: true,
-        newScopes: ["profile"]);
+    credentials = await client.credentials
+        .refresh(identifier: identifier, secret: secret, basicAuth: true);
     File(directory.path + '/credentials.json')
         .writeAsString(client.credentials.toJson());
     client = oauth2.Client(credentials, identifier: identifier, secret: secret);
-  } catch (e) {
+  } on FormatException catch (e) {
+    print(e);
     locator<NavigationService>().navigateTo('Login');
     Get.defaultDialog(title: "Test", content: Text("Testtt"));
+    throw ("Token Expire");
+  } catch (e) {
+    throw ("Disconnect");
   }
 
   return client;

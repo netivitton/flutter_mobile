@@ -11,7 +11,19 @@ import 'package:argon_flutter/process/authorization.dart';
 import 'package:argon_flutter/process/service_locator.dart';
 import 'package:get/get.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
+  @override
+  _Login createState() => _Login();
+  // final GlobalKey _scaffoldKey = new GlobalKey();
+
+}
+
+class _Login extends State<Login> {
+  void initState() {
+    // init something.
+    super.initState();
+  }
+
   final TextEditingController usernameController = new TextEditingController();
   final TextEditingController passwordController = new TextEditingController();
 

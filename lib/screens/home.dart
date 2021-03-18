@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:argon_flutter/constants/Theme.dart';
@@ -10,7 +11,11 @@ import 'package:argon_flutter/widgets/card-square.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/process/authorization.dart';
 import 'package:argon_flutter/screens/home.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+RefreshController _refreshController;
+
+var list_data = [];
 final Map<String, Map<String, String>> homeCards = {
   "Ice Cream": {
     "title": "Ice cream is made with carrageenan …",
@@ -50,23 +55,46 @@ class _Home extends State<Home> {
   @override
   void initState() {
     // init something.
-    _doAsyncStuff();
+    _refreshController = RefreshController(initialRefresh: true);
+    _doProfile();
     super.initState();
   }
 
-  Future<void> _doAsyncStuff() async {
-    var client = await createClient();
-    var result = await client.read(Uri.parse('http://localhost:4200/user/me'));
-    print(result);
+  // Future<void> _doAsyncStuff() async {
+  //   var client = await createClient();
+  //   var result = await client.read(Uri.parse('http://localhost:4200/user/me'));
+  //   print(result);
+  // }
+  void _onRefresh() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    _doProfile();
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async {
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    _doProfile();
+    if (mounted) setState(() {});
+    _refreshController.loadComplete();
+    _refreshController.refreshCompleted();
   }
 
   Future<void> _doProfile() async {
     try {
       var client = await createClient();
       var result =
-          await client.read(Uri.parse('http://localhost:4200/user/profile'));
-      print(result);
-    } catch (e) {}
+          await client.read(Uri.parse('http://localhost:4200/user/test_list'));
+      Map<String, dynamic> responseJson = jsonDecode(result);
+      list_data = responseJson['BODY'];
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -78,52 +106,30 @@ class _Home extends State<Home> {
         drawer: ArgonDrawer(currentPage: "Home"),
         body: Container(
           padding: EdgeInsets.only(left: 24.0, right: 24.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: CardHorizontal(
-                      cta: "View article",
-                      title: homeCards["Ice Cream"]['title'],
-                      img: homeCards["Ice Cream"]['image'],
-                      tap: () {
-                        _doProfile();
-                      }),
-                ),
-                SizedBox(height: 8.0),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CardSmall(
-                        cta: "View article",
-                        title: homeCards["Makeup"]['title'],
-                        img: homeCards["Makeup"]['image'],
-                        tap: () {}),
-                    CardSmall(
-                        cta: "View article",
-                        title: homeCards["Coffee"]['title'],
-                        img: homeCards["Coffee"]['image'],
-                        tap: () {})
-                  ],
-                ),
-                SizedBox(height: 8.0),
-                CardHorizontal(
-                    cta: "View article",
-                    title: homeCards["Fashion"]['title'],
-                    img: homeCards["Fashion"]['image'],
-                    tap: () {}),
-                SizedBox(height: 8.0),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 32.0),
-                  child: CardSquare(
-                      cta: "View article",
-                      title: homeCards["Argon"]['title'],
-                      img: homeCards["Argon"]['image'],
-                      tap: () {}),
-                )
-              ],
+          child: SmartRefresher(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  for (var item in list_data)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: CardHorizontal(
+                          cta: item["name"],
+                          title: item["lastname"],
+                          img: homeCards["Ice Cream"]['image'],
+                          tap: () {
+                            _doProfile();
+                          }),
+                    ),
+                  SizedBox(height: 8.0),
+                ],
+              ),
             ),
+            onRefresh: _onRefresh,
+            onLoading: _onLoading,
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: false,
           ),
         ));
   }
