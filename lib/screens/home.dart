@@ -6,11 +6,8 @@ import 'package:argon_flutter/constants/Theme.dart';
 //widgets
 import 'package:argon_flutter/widgets/navbar.dart';
 import 'package:argon_flutter/widgets/card-horizontal.dart';
-import 'package:argon_flutter/widgets/card-small.dart';
-import 'package:argon_flutter/widgets/card-square.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/process/authorization.dart';
-import 'package:argon_flutter/screens/home.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 RefreshController _refreshController;
@@ -52,11 +49,14 @@ class Home extends StatefulWidget {
 }
 
 class _Home extends State<Home> {
+  final TextEditingController searchbarController = new TextEditingController();
   @override
   void initState() {
     // init something.
-    _refreshController = RefreshController(initialRefresh: true);
-    _doProfile();
+
+    setState(() {
+      _refreshController = RefreshController(initialRefresh: true);
+    });
     super.initState();
   }
 
@@ -65,11 +65,23 @@ class _Home extends State<Home> {
   //   var result = await client.read(Uri.parse('http://localhost:4200/user/me'));
   //   print(result);
   // }
+
+  void _doProfileSearch(text) {
+    try {
+      print(text);
+      return;
+      //_refreshController.requestRefresh();
+    } catch (e) {
+      print("Test");
+    }
+  }
+
   void _onRefresh() async {
     // monitor network fetch
+    await _doProfile();
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
-    _doProfile();
+
     if (mounted) setState(() {});
     _refreshController.loadComplete();
     _refreshController.refreshCompleted();
@@ -77,9 +89,10 @@ class _Home extends State<Home> {
 
   void _onLoading() async {
     // monitor network fetch
+    await _doProfile();
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
-    _doProfile();
+
     if (mounted) setState(() {});
     _refreshController.loadComplete();
     _refreshController.refreshCompleted();
@@ -92,8 +105,9 @@ class _Home extends State<Home> {
           await client.read(Uri.parse('http://localhost:4200/user/test_list'));
       Map<String, dynamic> responseJson = jsonDecode(result);
       list_data = responseJson['BODY'];
-      print(list_data);
+      //_refreshController.requestRefresh();
     } catch (e) {
+      print("Test");
       print(e);
     }
   }
@@ -101,7 +115,18 @@ class _Home extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: Navbar(title: "Home", searchBar: true, rightOptions: false),
+        appBar: Navbar(
+          title: "Home",
+          searchBar: true,
+          rightOptions: false,
+          isOnSearch: true,
+          searchController: searchbarController,
+          searchOnPressed: () {
+            setState(() {
+              _doProfileSearch(searchbarController.text);
+            });
+          },
+        ),
         backgroundColor: ArgonColors.bgColorScreen,
         // key: _scaffoldKey,
         drawer: ArgonDrawer(currentPage: "Home"),

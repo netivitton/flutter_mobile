@@ -17,6 +17,7 @@ class Navbar extends StatefulWidget implements PreferredSizeWidget {
   final bool isOnSearch;
   final TextEditingController searchController;
   final Function searchOnChanged;
+  final Function searchOnPressed;
   final bool searchAutofocus;
   final bool noShadow;
   final Color bgColor;
@@ -32,6 +33,7 @@ class Navbar extends StatefulWidget implements PreferredSizeWidget {
       this.searchController,
       this.isOnSearch = false,
       this.searchOnChanged,
+      this.searchOnPressed,
       this.searchAutofocus = false,
       this.backButton = false,
       this.noShadow = false,
@@ -49,12 +51,12 @@ class Navbar extends StatefulWidget implements PreferredSizeWidget {
 
 class _NavbarState extends State<Navbar> {
   String activeTag;
-
   ItemScrollController _scrollController = ItemScrollController();
 
   void initState() {
     if (widget.tags != null && widget.tags.length != 0) {
       activeTag = widget.tags[0];
+      print(activeTag);
     }
     super.initState();
   }
@@ -154,8 +156,10 @@ class _NavbarState extends State<Navbar> {
                           controller: widget.searchController,
                           onChanged: widget.searchOnChanged,
                           autofocus: widget.searchAutofocus,
-                          suffixIcon:
-                              Icon(Icons.zoom_in, color: ArgonColors.muted),
+                          suffixIcon: IconButton(
+                              icon:
+                                  Icon(Icons.zoom_in, color: ArgonColors.muted),
+                              onPressed: widget.searchOnPressed),
                           onTap: () {}),
                     ),
                   SizedBox(

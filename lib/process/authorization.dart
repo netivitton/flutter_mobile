@@ -11,6 +11,11 @@ import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
 final storage = new FlutterSecureStorage();
+final authorizationEndpoint =
+    Uri.parse('http://localhost:4200/oauth/authorise');
+final redirectUrl = Uri.parse('http://localhost:4200/user/secure');
+final tokenEndpoint = Uri.parse('http://localhost:4200/oauth/token');
+
 Future<dynamic> passwordGrant(String username, password) async {
   Map data = {'username': username, 'password': password};
   var identifier = await storage.read(key: "clientIdentifier");
@@ -20,7 +25,6 @@ Future<dynamic> passwordGrant(String username, password) async {
       await http.post(Uri.http("localhost:4200", "login"), body: data);
   // This URL is an endpoint that's provided by the authorization server. It's
 // usually included in the server's documentation of its OAuth2 API.
-  final authorizationEndpoint = Uri.parse('http://localhost:4200/oauth/token');
 
 // The user should supply their own username and password.
   // final username = 'example user';
@@ -51,7 +55,7 @@ Future<dynamic> passwordGrant(String username, password) async {
   try {
     // Once you have the client, you can use it just like any other HTTP client.
     var client = await oauth2.resourceOwnerPasswordGrant(
-        authorizationEndpoint, username, password,
+        tokenEndpoint, username, password,
         identifier: identifier, secret: secret);
     result = await client.read(Uri.parse('http://localhost:4200/user/secure'));
 // Once we're done with the client, save the credentials file. This will allow
@@ -61,6 +65,7 @@ Future<dynamic> passwordGrant(String username, password) async {
     File(directory.path + '/credentials.json')
         .writeAsString(client.credentials.toJson());
   } catch (e) {
+    print(e);
     result = jsonEncode({'checkLogin': false});
   }
 
@@ -83,24 +88,61 @@ Future<oauth2.Client> createClient() async {
   try {
     var result =
         await client.read(Uri.parse('http://localhost:4200/user/secure'));
-    print(result);
-  } on http.ClientException catch (e) {
+  } catch (e) {
     try {
-      print(e);
-      client = await refreshClient(credentials, client);
+      client = await refreshClient(client);
       print(credentialsFile.readAsString());
     } catch (e) {
-      print(e);
       throw ("refresh expire");
     }
   }
   return client;
 }
 
-Future<oauth2.Client> refreshClient(credentials, client) async {
+// Future<oauth2.Client> createClient() async {
+//   Directory directory = await getApplicationDocumentsDirectory();
+//   final credentialsFile = File(directory.path + '/credentials.json');
+//   final identifier = await storage.read(key: "clientIdentifier");
+//   final secret = await storage.read(key: "clientSecret");
+//   var exists = await credentialsFile.exists();
+
+//   // If the OAuth2 credentials have already been saved from a previous run, we
+//   // just want to reload them.
+//   if (exists) {
+//     var credentials =
+//         oauth2.Credentials.fromJson(await credentialsFile.readAsString());
+//     return oauth2.Client(credentials, identifier: identifier, secret: secret);
+//   }
+
+//   // If we don't have OAuth2 credentials yet, we need to get the resource owner
+//   // to authorize us. We're assuming here that we're a command-line application.
+//   var grant = oauth2.AuthorizationCodeGrant(
+//       identifier, authorizationEndpoint, tokenEndpoint,
+//       secret: secret);
+
+//   // A URL on the authorization server (authorizationEndpoint with some additional
+//   // query parameters). Scopes and state can optionally be passed into this method.
+//   var authorizationUrl = grant.getAuthorizationUrl(redirectUrl);
+
+//   // Redirect the resource owner to the authorization URL. Once the resource
+//   // owner has authorized, they'll be redirected to `redirectUrl` with an
+//   // authorization code. The `redirect` should cause the browser to redirect to
+//   // another URL which should also have a listener.
+//   //
+//   // `redirect` and `listen` are not shown implemented here.
+//   await redirect(authorizationUrl);
+//   var responseUrl = await listen(redirectUrl);
+//   // Once the user is redirected to `redirectUrl`, pass the query parameters to
+//   // the AuthorizationCodeGrant. It will validate them and extract the
+//   // authorization code to create a new Client.
+//   return await grant.handleAuthorizationResponse(responseUrl.queryParameters);
+// }
+
+Future<oauth2.Client> refreshClient(client) async {
   Directory directory = await getApplicationDocumentsDirectory();
   final identifier = await storage.read(key: "clientIdentifier");
   final secret = await storage.read(key: "clientSecret");
+  var credentials;
   // If the OAuth2 credentials have already been saved from a previous run, we
   // just want to reload them.
   try {
@@ -112,9 +154,10 @@ Future<oauth2.Client> refreshClient(credentials, client) async {
     return client;
   } on FormatException catch (e) {
     locator<NavigationService>().navigateTo('Login');
-    Get.defaultDialog(title: "Test", content: Text("Testtt"));
+    Get.defaultDialog(title: "Session", content: Text("หมดอายุ"));
     throw ("Token Expire");
   } catch (e) {
+    Get.defaultDialog(title: "Disconnect", content: Text("Disconnect"));
     throw ("Disconnect");
   }
 }
@@ -142,4 +185,13 @@ Future<List<String>> getDeviceDetails() async {
 
 //if (!mounted) return;
   return [deviceName, deviceVersion, identifier];
+}
+
+Future<void> redirect(Uri url) async {
+  // Client implementation detail
+}
+
+Future<Uri> listen(Uri url) async {
+  // Client implementation detail
+  return Uri();
 }
