@@ -68,9 +68,8 @@ class _Home extends State<Home> {
 
   void _doProfileSearch(text) {
     try {
-      print(text);
-      return;
-      //_refreshController.requestRefresh();
+      _doProfile(text);
+      _refreshController.requestRefresh();
     } catch (e) {
       print("Test");
     }
@@ -78,7 +77,7 @@ class _Home extends State<Home> {
 
   void _onRefresh() async {
     // monitor network fetch
-    await _doProfile();
+    await _doProfile(searchbarController.text);
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
 
@@ -89,7 +88,7 @@ class _Home extends State<Home> {
 
   void _onLoading() async {
     // monitor network fetch
-    await _doProfile();
+    await _doProfile(searchbarController.text);
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
@@ -98,11 +97,15 @@ class _Home extends State<Home> {
     _refreshController.refreshCompleted();
   }
 
-  Future<void> _doProfile() async {
+  Future<void> _doProfile(text) async {
     try {
+      print(text);
       var client = await createClient();
-      var result =
-          await client.read(Uri.parse('http://localhost:4200/user/test_list'));
+      final queryParameters = {
+        'keyword': text,
+      };
+      var result = await client
+          .read(Uri.http('localhost:4200', '/user/test_list', queryParameters));
       Map<String, dynamic> responseJson = jsonDecode(result);
       list_data = responseJson['BODY'];
       //_refreshController.requestRefresh();
@@ -143,9 +146,7 @@ class _Home extends State<Home> {
                           cta: item["name"],
                           title: item["lastname"],
                           img: homeCards["Ice Cream"]['image'],
-                          tap: () {
-                            _doProfile();
-                          }),
+                          tap: () {}),
                     ),
                   SizedBox(height: 8.0),
                 ],
