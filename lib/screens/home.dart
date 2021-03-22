@@ -9,6 +9,7 @@ import 'package:argon_flutter/widgets/card-horizontal.dart';
 import 'package:argon_flutter/widgets/drawer.dart';
 import 'package:argon_flutter/process/authorization.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:argon_flutter/model/test_post.dart';
 
 RefreshController _refreshController;
 
@@ -101,13 +102,18 @@ class _Home extends State<Home> {
     try {
       print(text);
       var client = await createClient();
-      final queryParameters = {
-        'keyword': text,
-      };
-      var result = await client
-          .read(Uri.http('localhost:4200', '/user/test_list', queryParameters));
-      Map<String, dynamic> responseJson = jsonDecode(result);
-      list_data = responseJson['BODY'];
+      TestPost test = TestPost(text);
+      var result = await client.post(
+          Uri.http('localhost:4200', '/user/test_post'),
+          headers: {"Content-Type": "application/json"},
+          body: jsonEncode(test.toJson()));
+
+      setState(() {
+        print(result.body.toString());
+        String jsonsDataString = result.body.toString();
+        Map<String, dynamic> responseJson = jsonDecode(jsonsDataString);
+        list_data = responseJson['BODY'];
+      });
       //_refreshController.requestRefresh();
     } catch (e) {
       print("Test");
