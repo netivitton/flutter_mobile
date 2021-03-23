@@ -80,12 +80,12 @@ class _Home extends State<Home> {
   void _onRefresh() async {
     // monitor network fetch
     listData = [];
+    page = 0;
     await _doProfile(searchbarController.text, 0);
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
 
     if (mounted) setState(() {});
-    _refreshController.loadComplete();
     _refreshController.refreshCompleted();
   }
 
@@ -98,7 +98,6 @@ class _Home extends State<Home> {
 
     if (mounted) setState(() {});
     _refreshController.loadComplete();
-    _refreshController.refreshCompleted();
   }
 
   Future<void> _doProfile(text, page) async {
