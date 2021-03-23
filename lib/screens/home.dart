@@ -13,7 +13,7 @@ import 'package:argon_flutter/model/test_post.dart';
 
 RefreshController _refreshController;
 
-var list_data = [];
+var listData = [];
 final Map<String, Map<String, String>> homeCards = {
   "Ice Cream": {
     "title": "Ice cream is made with carrageenan …",
@@ -51,6 +51,7 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   final TextEditingController searchbarController = new TextEditingController();
+  var page = 0;
   @override
   void initState() {
     // init something.
@@ -69,7 +70,7 @@ class _Home extends State<Home> {
 
   void _doProfileSearch(text) {
     try {
-      _doProfile(text);
+      _doProfile(text, page);
       _refreshController.requestRefresh();
     } catch (e) {
       print("Test");
@@ -78,7 +79,8 @@ class _Home extends State<Home> {
 
   void _onRefresh() async {
     // monitor network fetch
-    await _doProfile(searchbarController.text);
+    listData = [];
+    await _doProfile(searchbarController.text, 0);
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
 
@@ -89,7 +91,8 @@ class _Home extends State<Home> {
 
   void _onLoading() async {
     // monitor network fetch
-    await _doProfile(searchbarController.text);
+    page++;
+    await _doProfile(searchbarController.text, page);
     await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use loadFailed(),if no data return,use LoadNodata()
 
@@ -98,11 +101,11 @@ class _Home extends State<Home> {
     _refreshController.refreshCompleted();
   }
 
-  Future<void> _doProfile(text) async {
+  Future<void> _doProfile(text, page) async {
     try {
       print(text);
       var client = await createClient();
-      TestPost test = TestPost(text);
+      TestPost test = TestPost(text, page);
       var result = await client.post(
           Uri.http('localhost:4200', '/user/test_post'),
           headers: {"Content-Type": "application/json"},
@@ -112,7 +115,7 @@ class _Home extends State<Home> {
         print(result.body.toString());
         String jsonsDataString = result.body.toString();
         Map<String, dynamic> responseJson = jsonDecode(jsonsDataString);
-        list_data = responseJson['BODY'];
+        listData.addAll(responseJson['BODY']);
       });
       //_refreshController.requestRefresh();
     } catch (e) {
@@ -145,7 +148,7 @@ class _Home extends State<Home> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  for (var item in list_data)
+                  for (var item in listData)
                     Padding(
                       padding: const EdgeInsets.only(top: 16.0),
                       child: CardHorizontal(
@@ -162,7 +165,7 @@ class _Home extends State<Home> {
             onLoading: _onLoading,
             controller: _refreshController,
             enablePullDown: true,
-            enablePullUp: false,
+            enablePullUp: true,
           ),
         ));
   }
