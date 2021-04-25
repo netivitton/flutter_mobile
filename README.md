@@ -1,5 +1,4 @@
-# [Argon Flutter](https://creativetimofficial.github.io/argon-flutter/docs/#) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/intent/tweet?text=Start%20Your%20Development%20With%20A%20Badass%20Flutter%20app%20inspired%20by%20Argon%20Design%20System.%0Ahttps%3A//demos.creative-tim.com/argon-flutter/)
-
+# [Flutter Mobile Base Argon Flutter Edit By Netivit Yuraphan](https://creativetimofficial.github.io/argon-flutter/docs/#)
 
  ![version](https://img.shields.io/badge/version-1.0.1-blue.svg)  [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/argon-flutter.svg?style=flat)](https://github.com/creativetimofficial/argon-flutter/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimofficial/argon-flutter.svg?maxAge=2592000)](https://github.com/creativetimofficial/argon-flutter/issues?q=is%3Aissue+is%3Aclosed)
 
@@ -126,39 +125,6 @@ At present, we officially aim to support the last two versions of the following 
 
 
 
-## Resources
-- Demo: <https://demos.creative-tim.com/argon-flutter>
-- Download Page: <https://www.creative-tim.com/product/argon-flutter?ref=argon-flutter-readme>
-- Documentation: <https://demos.creative-tim.com/argon-flutter/docs?ref=argon-flutter-readme>
-- License Agreement: <https://www.creative-tim.com/license>
-- Support: <https://www.creative-tim.com/contact-us>
-- Issues: [Github Issues Page](https://github.com/creativetimofficial/argon-flutter/issues)
-- [Argon Design System](https://www.creative-tim.com/product/argon-design-system?ref=argon-flutter-readme) - For Front End Development
-- **Dashboards:**
-
-| HTML | React | Vue |
-| --- | --- | ---  |
-| [![Argon HTML](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/argon-dashboard-pro.jpg)](https://www.creative-tim.com/product/argon-dashboard-pro?ref=argon-flutter-readme) | [![Argon Dashboard React](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro-react/argon-dashboard-pro-react.jpg)](https://www.creative-tim.com/product/argon-dashboard-pro-react?ref=argon-flutter-readme) | [![Argon Dashboard Vue](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/vue-argon-dashboard-pro/vue-argon-dashboard-pro.jpg)](https://www.creative-tim.com/product/vue-argon-dashboard-pro?ref=argon-flutter-readme)
-
-| Node.js | Nuxt  | Laravel |
-| --- | --- | --- |
-| [![Argon Dashboard PRO NodeJS](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro-nodejs/argon-dashboard-pro-nodejs.jpg)](https://www.creative-tim.com/product/argon-dashboard-pro-nodejs?ref=argon-flutter-readme) | [![Argon Dashboard PRO Nuxt](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/nuxt-argon-dashboard-pro/nuxt-argon-dashboard-pro.jpg)](https://www.creative-tim.com/product/nuxt-argon-dashboard-pro?ref=argon-flutter-readme) | [![Argon Dashboard PRO Laravel](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro-laravel/argon-dashboard-pro-laravel.jpg)](https://www.creative-tim.com/product/argon-dashboard-pro-laravel?ref=argon-flutter-readme)
-
-
-## Reporting Issues
-
-We use GitHub Issues as the official bug tracker for the Argon Flutter. Here are some advices for our users that want to report an issue:
-
-1. Make sure that you are using the latest version of the Argon Flutter.
-2. Providing us reproducible steps for the issue will shorten the time it takes for it to be fixed.
-3. Some issues may be platform specific, so specifying on what platform you encountered the issue might help.
-
-
-### Technical Support or Questions
-
-If you have questions or need help integrating the product please [contact us](https://www.creative-tim.com/contact-us) instead of opening an issue.
-
-
 ## Licensing
 
 - Copyright 2020 Creative Tim (https://www.creative-tim.com/?ref=argon-flutter-readme)
@@ -167,30 +133,5 @@ If you have questions or need help integrating the product please [contact us](h
 
 
 
-## Useful Links
-
-- [Tutorials](https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w)
-- [Affiliate Program](https://www.creative-tim.com/affiliates/new) (earn money)
-- [Blog Creative Tim](http://blog.creative-tim.com/)
-- [Free Products](https://www.creative-tim.com/bootstrap-themes/free) from Creative Tim
-- [Premium Products](https://www.creative-tim.com/bootstrap-themes/premium) from Creative Tim
-- [React Products](https://www.creative-tim.com/bootstrap-themes/react-themes) from Creative Tim
-- [Angular Products](https://www.creative-tim.com/bootstrap-themes/angular-themes) from Creative Tim
-- [VueJS Products](https://www.creative-tim.com/bootstrap-themes/vuejs-themes) from Creative Tim
-- [More products](https://www.creative-tim.com/bootstrap-themes) from Creative Tim
-- Check our Bundles [here](https://www.creative-tim.com/bundles?ref="argon-github-readme")
-
-
-### Social Media
-
-Twitter: <https://twitter.com/CreativeTim>
-
-Facebook: <https://www.facebook.com/CreativeTim>
-
-Dribbble: <https://dribbble.com/creativetim>
-
-Google+: <https://plus.google.com/+CreativetimPage>
-
-Instagram: <https://www.instagram.com/CreativeTimOfficial>
 
 
