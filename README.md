@@ -9,16 +9,6 @@ Argon Flutter is a free mobile UI template built with Google's [Flutter](https:/
 
 Start your development with a badass Design System for Flutter inspired by Argon Design System. If you like Argon's Design System, you will love this Flutter app template! It features a huge number of components and screens built to fit together and look amazing. 
 
-### FULLY CODED COMPONENTS
-
-Argon Flutter features over 100 variations of widgets like buttons, inputs, cards, navigations etc, giving you the freedom of choosing and combining. All components can take variations in colour, that you can easily modify inside our theme file.
-
-You will save a lot of time going from prototyping to full-functional code, because all elements are implemented. We wanted the design process to be seamless, so switching from image to the real page is very easy to do.
-
-### Widgets & Cards
-Argon Flutter comes packed with a large number of components and cards. Putting together a mobile app has never been easier than matching together different widgets. From the profile screen to a settings screen, you can easily customise and build your screens. We have created multiple options for you to put together and customise into pixel perfect screens. 
-
-View [ all widgets/cards here](https://demos.creative-tim.com/argon-flutter/index.html#cards?ref=argon-flutter-readme).
 
 ### Example Screens
 If you want to get inspiration or just show something directly to your clients, you can jump start your development with our pre-built example screens. From onboarding screens to profile or discover screens, you will be able to quickly set up the basic structure for your Flutter mobile project. 
