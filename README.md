@@ -28,32 +28,10 @@ View [all screens here](https://demos.creative-tim.com/argon-flutter/index.html#
 
 Let us know your thoughts below. And good luck with development!
 
-
-## Table of Contents
-
-* [Versions](#versions) 
-* [Demo](#demo)
-* [Quick Start](#quick-start)
-* [Documentation](#documentation)
-* [File Structure](#file-structure)
-* [OS Support](#os-support)
-* [Resources](#resources)
-* [Reporting Issues](#reporting-issues)
-* [Technical Support or Questions](#technical-support-or-questions)
-* [Licensing](#licensing)
-* [Useful Links](#useful-links)
-
 ## Versions
 
 [<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/html-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/argon-design-system)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/vue-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/vue-argon-design-system)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/react-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/argon-design-system-react)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/react-native-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/argon-pro-react-native)[<img src="https://github.com/creativetimofficial/public-assets/blob/master/logos/angular-logo.jpg?raw=true" width="60" height="60" />](https://www.creative-tim.com/product/argon-dashboard-angular)
 
-
-
-
-
-| HTML | React | Angular  |
-| --- | --- | ---  |
-| [![Argon Design System](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-design-system/argon-design-system.jpg)](https://www.creative-tim.com/product/argon-design-system?ref=argon-flutter-readme)  | [![Argon Design System React](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-design-system-react/argon-design-system-react.jpg)](https://www.creative-tim.com/product/argon-design-system-react?ref=argon-flutter-readme)  | [![Argon Design System Angular](https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-design-system-angular/argon-design-system-angular.jpg)](https://www.creative-tim.com/product/argon-design-system-angular?ref=argon-flutter-readme)
 
 ## Demo
 
